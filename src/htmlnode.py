@@ -20,9 +20,4 @@ class HTMLNode():
         return props_html
     
     def __repr__(self):
-        # This is for printing the HTMLNode object to see all of its values.
-        print(f"HTMLNode: ")
-        print(f" - Tag: {self.tag}")
-        print(f" - Value: {self.value}")
-        print(f" - Children: {self.children}")
-        print(f" - Props: {self.props}")
+        return f"HTMLNode({self.tag}, {self.value}, children: {self.children}, {self.props})"
