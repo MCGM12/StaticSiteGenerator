@@ -1,4 +1,5 @@
 from htmlnode import HTMLNode
+from leafnode import LeafNode  # Add this import
 
 class ParentNode(HTMLNode):
     def __init__(self, tag, children, props=None):
@@ -10,8 +11,7 @@ class ParentNode(HTMLNode):
         if not self.children or any(child is None for child in self.children):
             raise ValueError("All children must be valid nodes.")
         for child in self.children:
-            # For LeafNode, check for missing value
-            if hasattr(child, "value") and child.value is None:
+            if isinstance(child, LeafNode) and child.value is None:
                 raise ValueError("Child node is missing a value.")
         children_html = ''.join(child.to_html() for child in self.children)
         return f"<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>"
