@@ -4,6 +4,7 @@ from leafnode import LeafNode
 from textnode import TextNode
 from textnode import TextType
 from typing import List
+import re
 
 
 def text_node_to_html_node(text_node):
@@ -52,4 +53,14 @@ def split_nodes_delimiter(old_nodes: List[TextNode], delimiter, text_type):
             new_nodes.append(node)
 
     return new_nodes
+
+def extract_markdown_images(text):
+    # Extracts image URLs from markdown-style image syntax
+    pattern = r"!\[([^\[\]]*)\]\(([^\(\)]*)\)"
+    return re.findall(pattern, text)
+
+def extract_markdown_links(text):
+    # Extracts link URLs from markdown-style link syntax
+    pattern = r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)"
+    return re.findall(pattern, text)
 
