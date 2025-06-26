@@ -3,6 +3,7 @@ from parentnode import ParentNode
 from leafnode import LeafNode
 from textnode import TextNode
 from textnode import TextType
+from typing import List
 
 
 def text_node_to_html_node(text_node):
@@ -32,7 +33,23 @@ def text_node_to_html_node(text_node):
         return return_node
 
 
-def split_nodes_delimiter(old_nodes: TextNode, delimiter, text_type):
-    #old_nodes is the input, delimiter is the string character to split on, text_type is the type of text node to create.
-    new_string = old_nodes.text.split(delimiter)
-    return new_string
+def split_nodes_delimiter(old_nodes: List[TextNode], delimiter, text_type):
+    #old_nodes is the input LIST, delimiter is the string character to split on, text_type is the type of text node to create.
+    new_nodes = []
+    for node in old_nodes:
+        if not isinstance(node, TextNode):
+            raise ValueError("All nodes in the list must be TextNode instances.")
+        
+        if node.text_type == text_type:
+            # Split the text of the node by the delimiter
+            split_text = node.text.split(delimiter)
+            # Create new TextNode instances for each split text
+            for text in split_text:
+                new_node = TextNode(text, text_type, node.url)
+                new_nodes.append(new_node)
+        else:
+            # If the node's text type does not match, keep it as is
+            new_nodes.append(node)
+
+    return new_nodes
+
